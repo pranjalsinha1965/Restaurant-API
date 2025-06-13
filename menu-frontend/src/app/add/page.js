@@ -3,11 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-/**
- * Sends a POST request to create a new menu item.
- * @param {Object} data The menu item data to be sent.
- */
-async function createMenu(data) {
+// ✅ Define this function
+const createMenu = async (data) => {
   const res = await fetch("http://127.0.0.1:8000/api/menu/", {
     method: "POST",
     headers: {
@@ -17,11 +14,11 @@ async function createMenu(data) {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to create data");
+    throw new Error("Failed to create menu");
   }
 
-  return res.json();
-}
+  return await res.json();
+};
 
 const Page = () => {
   const router = useRouter();
@@ -29,16 +26,12 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  /**
-   * Handles the form submission.
-   * @param {Event} event The form submission event.
-   */
   const onFinish = (event) => {
     event.preventDefault();
     setIsLoading(true);
+
     createMenu(formData)
       .then(() => {
-        // Navigate to the main page with a query parameter indicating success
         router.replace("/?action=add");
       })
       .catch(() => {
@@ -47,7 +40,6 @@ const Page = () => {
       });
   };
 
-  // Cleanup effect for resetting loading state
   useEffect(() => {
     return () => setIsLoading(false);
   }, []);
