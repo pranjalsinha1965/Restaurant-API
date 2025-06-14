@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 async function getMenu(id) {
- const res = await fetch(`http://127.0.0.1:8000/api/menu/${id}/`);
+ const res = await fetch(`http://127.0.0.1:8000/api/menu/${id}`);
  if (!res.ok) {
   throw new Error("Failed to retrieve menu");
 }
@@ -12,7 +12,7 @@ return res.json();
 }
 
 async function updateMenu(id, data) {
-  const res = await fetch(`http://127.0.0.1:8000/api/menu/${id}/`, {
+  const res = await fetch(`http://127.0.0.1:8000/api/menu/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const Page = ({ params }) => {
       }
     };
     if (params?.menuId) fetchData();
-  }, [params?.menuId]);
+  },[params?.menuId]);
 
   if (!params?.menuId) return <p>Invalid Menu ID</p>;
 
